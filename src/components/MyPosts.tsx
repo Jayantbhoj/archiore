@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import UserPost from "@/components/UserPost";
 import { userDetailsAction } from "@/app/actions";
 import { getUserPostsAction } from "@/app/profile/[username]/actions";
+import LoadingSpinner from "@/app/loading";
 
 interface User {
   username: string;
@@ -46,7 +47,7 @@ interface MyPostsProps {
 const MyPosts= () => {
   const [user, setUser] = useState<User | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
-
+  const [loading, setLoading] = useState<boolean>(false);
   // Fetch user details
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -59,25 +60,38 @@ const MyPosts= () => {
   // Fetch posts from the database
   useEffect(() => {
     const fetchPosts = async () => {
-      if (user) {
-        const postData = await getUserPostsAction(user.username); // Use `user.username`
-        
+      if (!user) return;
+  
+      setLoading(true); // Start loading
+  
+      try {
+        const postData = await getUserPostsAction(user.username);
+  
         // Convert createdAt to string
         const postsWithStringDates: Post[] = postData.map((post: any) => ({
           ...post,
-          createdAt: new Date(post.createdAt).toISOString(), // Ensures it's a string
+          createdAt: new Date(post.createdAt).toISOString(),
           comments: post.comments.map((comment: any) => ({
             ...comment,
             createdAt: new Date(comment.createdAt).toISOString(),
           })),
         }));
-
+  
         setPosts(postsWithStringDates);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
+  
     fetchPosts();
-  }, [user]); // Make sure to re-fetch when `user` is set
-
+  }, [user]); // Re-fetch when `user` changes
+  
+  // Render logic
+  if (loading) {
+    return <LoadingSpinner />;
+  }
   return (
     <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 p-4">
       {posts.map((post) => (
