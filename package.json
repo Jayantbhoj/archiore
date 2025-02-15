@@ -11,7 +11,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.735.0",
     "@aws-sdk/s3-request-presigner": "^3.735.0",
-    "@clerk/nextjs": "^6.9.14",
     "@heroui/modal": "^2.2.8",
     "@heroui/react": "^2.6.14",
     "@heroui/system": "^2.4.7",
@@ -73,7 +72,6 @@
     "prisma": "^6.3.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5",
-    "typescript-eslint": "^8.23.0",
-    "wrangler": "^3.105.1"
+    "typescript-eslint": "^8.23.0"
   }
 }
