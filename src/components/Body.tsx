@@ -108,7 +108,7 @@ const Body = () => {
 
   return (
     <div className="p-4 md:p-6 bg-myWhite min-h-screen">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {[0, 1, 2, 3].map((columnIndex) => (
           <div
             key={columnIndex}
