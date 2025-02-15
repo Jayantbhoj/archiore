@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id         String     @id @default(uuid())
+  email      String     @unique
+  username   String     @unique
+  password   String
+  name       String?
+  surname    String?
+  image      String?
+  bio        String?
+  createdAt  DateTime   @default(now())
+  savedPosts Post[]     @relation("SavedPosts")
+  post       Post[]
+  comments   Comment[]
+  session    Session[]
+  portfolio  Portfolio? // A user has only one portfolio (One-to-One)
+}
+
+model Post {
+  id          String    @id @default(uuid())
+  title       String
+  imgUrl      String
+  description String?
+  tags        String
+  createdAt   DateTime  @default(now())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  upvotes     Int
+  comments    Comment[]
+  savedBy     User[]    @relation("SavedPosts")  // Relation from the other side for saved posts
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  description String
+  createdAt   DateTime @default(now())
+  userId      String
+  postId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post        Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  upvotes     Int
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+}
+
+
+model Portfolio {
+  id         String     @id @default(uuid())
+  userId     String     @unique // Ensures a user can have only one portfolio
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime   @default(now())
+  projects   Project[]  // A portfolio contains multiple projects
+}
+
+model Project {
+  id         String    @id @default(uuid())
+  name       String
+  cover      String?
+  details    String?
+  portfolioId String
+  portfolio  Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+  sheets     Sheet[]   // A project contains multiple sheets
+}
+
+model Sheet {
+  id         String    @id @default(uuid())
+  title      String
+  image      String
+  projectId  String
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt  DateTime  @default(now())
+}
