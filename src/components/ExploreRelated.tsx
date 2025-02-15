@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import BeautifulCard from "@/components/BeautifulCard";
 import { usePathname } from "next/navigation";
-import { relatedPostsAction } from "@/app/actions";
+import { exploreRelatedPostsAction } from "@/app/actions";
 import { Loader2 } from "lucide-react";
 
 interface Post {
@@ -17,9 +17,9 @@ interface Post {
   };
 }
 
-const RelatedPosts = () => {
+const ExploreRelatedPosts = () => {
   const pathname = usePathname();
-  const postId = pathname.split("/").pop();
+  const tag = decodeURIComponent(pathname.split("/").pop() || "");
 
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
@@ -44,15 +44,15 @@ const RelatedPosts = () => {
     setPage(1);
     setHasMore(true);
     setLoading(true);
-  }, [postId]);
+  }, [tag]);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      if (!postId || !hasMore || isFetching) return;
+      if (!tag || !hasMore || isFetching) return;
       setIsFetching(true);
 
       try {
-        const newPosts = await relatedPostsAction(postId);
+        const newPosts = await exploreRelatedPostsAction(tag);
 
         const normalizedPosts = newPosts.map((post: any) => ({
           ...post,
@@ -79,7 +79,7 @@ const RelatedPosts = () => {
     };
 
     fetchPosts();
-  }, [postId, page]);
+  }, [tag, page]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -121,7 +121,7 @@ const RelatedPosts = () => {
 
   return (
     <div className="p-4 bg-myWhite min-h-screen">
-      <h2 className="text-2xl font-bold mb-4">Related Posts</h2>
+      <h2 className="text-2xl font-bold mb-4">Related Posts for "{tag}"</h2>
   
       {posts.length === 0 && !loading ? (
         <div className="text-center text-gray-500">No related posts found.</div>
@@ -167,4 +167,4 @@ const RelatedPosts = () => {
   );
 };
 
-export default RelatedPosts;
+export default ExploreRelatedPosts;

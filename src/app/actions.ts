@@ -468,3 +468,35 @@ export const relatedPostsAction = async (postId: string) => {
     return [];
   }
 };
+
+
+export const exploreRelatedPostsAction = async (tag: string) => {
+  try {
+    console.log("Fetching related posts for tag:", tag);
+
+    const relatedPosts = await prisma.post.findMany({
+      where: {
+        tags: tag, // Find posts with the exact tag
+      },
+      select: {
+        id: true,
+        title: true,
+        imgUrl: true,
+        createdAt: true,
+        user: {
+          select: {
+            username: true,
+            image: true,
+          },
+        },
+      },
+      take: 10, // Limit results
+    });
+
+    console.log("Related posts found:", relatedPosts.length);
+    return relatedPosts;
+  } catch (error) {
+    console.error("Error fetching related posts:", error);
+    return [];
+  }
+};

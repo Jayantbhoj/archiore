@@ -1,12 +1,14 @@
 "use client";
 
 import { isSignedInAction } from "@/app/actions";
-import Body from "@/components/Body";
+
 import LandingNavbar from "@/components/LandingNavbar";
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation"; // ✅ Import useParams
+
+import ExploreRelatedPosts from "@/components/ExploreRelated";
 
 const ExplorePage = () => {
   const params = useParams(); // ✅ Get params safely
@@ -35,7 +37,7 @@ const ExplorePage = () => {
   return (
     <>
       {signedIn ? <Navbar /> : <LandingNavbar />}
-      <div className="min-h-screen bg-myWhite dark:bg-neutral-950 py-16 px-4 md:px-12">
+      <div className=" bg-myWhite dark:bg-neutral-950 py-4 px-4 md:px-12">
         {/* Image Section with Overlay and Title */}
         <div
           className="relative w-full md:w-2/3 mx-auto rounded-lg overflow-hidden mb-8"
@@ -62,7 +64,7 @@ const ExplorePage = () => {
           </p>
         </div>
       </div>
-      <Body />
+      <ExploreRelatedPosts />
     </>
   );
 };

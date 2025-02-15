@@ -58,7 +58,7 @@ export default function Post() {
 
       {/* Right Side: Interaction Section */}
       <div className="flex flex-col justify-start w-full lg:w-1/2 pl-8">
-        <div className="flex items-center mb-2">
+        <div className="flex items-center mb-1">
           <p className="text-2xl font-semibold text-myBlack flex-1">{post.title}</p>
         </div>
         {post.description && (
@@ -87,24 +87,6 @@ export default function Post() {
             <p className="text-myBlack text-sm font-semibold text-lg">{post.user?.username}</p>
           </span>
         </Link>
-        
-        {/* Comments Section */}
-        <div className="w-full p-5 bg-gray-50 rounded-lg mt-6">
-          <h4 className="text-xl font-semibold text-myBlack mb-5">Comments</h4>
-          {post.comments?.map((comment: any, index: number) => (
-            <div key={index} className="flex items-start mb-5">
-              <img
-                src={comment.user?.image || "https://images.pexels.com/photos/1497553/pexels-photo-1497553.jpeg"}
-                alt="Profile"
-                className="rounded-full mr-5 w-10 h-10 object-cover"
-              />
-              <div className="flex flex-col">
-                <p className="font-semibold text-myBlack text-lg">{comment.user?.username}</p>
-                <p className="text-gray-700 text-lg">{comment.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* Image Modal */}

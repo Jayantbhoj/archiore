@@ -56,7 +56,7 @@ const page = () => {
 
       {/* About Archiore Section */}
       <section className="bg-black text-white py-20 px-6 text-center">
-        <h2 className="text-3xl font-bold mb-6">About Archiore</h2>
+        <h2 className="text-3xl font-bold mb-6">Archiore - Your Architectural Ore</h2>
         <p className="max-w-3xl mx-auto text-lg text-gray-300">
           Archiore is a platform built for architects, whether professionals or students, 
           to showcase their work, connect with peers, and explore innovative designs. 

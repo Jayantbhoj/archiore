@@ -65,7 +65,7 @@ const HighlightsSection = () => {
               Showcase Your  Portfolio
             </h2>
             <p className="text-lg text-gray-700 mb-6">
-              Join a community of architecture students and professionals. Share your portfolio, showcase your projects, and gain feedback from peers. Discover inspiring designs and plans from fellow students to fuel your creativity.
+              Join a community of architects. Share your portfolio, showcase your projects, and gain feedback from peers. Discover inspiring designs and plans from fellow architects to fuel your creativity.
             </p>
             <div className="flex justify-center lg:justify-start">
               <a href="/explore" className="bg-myRed text-white px-4 py-2 rounded-full mr-4">
