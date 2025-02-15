@@ -43,7 +43,7 @@ export default function Upload() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let formErrors: { [key: string]: string } = {};
+    const formErrors: { [key: string]: string } = {};
     if (!title) formErrors.title = "Title is required";
     if (!tags) formErrors.tags = "Tags are required";
     if (!image) formErrors.image = "Image is required";

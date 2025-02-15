@@ -46,7 +46,7 @@ export default function ProjectCoverUpload({
   const handleUpload = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
-    let formErrors: { [key: string]: string } = {};
+    const formErrors: { [key: string]: string } = {};
     if (!image) formErrors.image = "Image is required";
   
     setErrors(formErrors);

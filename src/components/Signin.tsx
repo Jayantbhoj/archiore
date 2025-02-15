@@ -15,7 +15,7 @@ export default function SignInComponent() {
 
   const validateForm = () => {
     let valid = true;
-    let newErrors = { email: "", password: "", form: "" };
+    const newErrors = { email: "", password: "", form: "" };
 
     // Email validation
     if (!formData.email) {

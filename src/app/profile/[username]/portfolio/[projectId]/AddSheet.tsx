@@ -46,7 +46,7 @@ export default function AddSheet({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   
-    let formErrors: { [key: string]: string } = {};
+    const formErrors: { [key: string]: string } = {};
     if (!title) formErrors.title = "Title is required";
     if (!image) formErrors.image = "Image is required";
   
