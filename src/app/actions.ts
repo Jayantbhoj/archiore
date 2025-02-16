@@ -544,7 +544,13 @@ import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOtpAction(email: string) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
 
+  if (!user) {
+    return { ok: false, message: "Email not found." };
+  }
   const result = await generateOtpAction(email);
   
   if (!result.ok) return { ok: false, message: result.message }; // Handle error
