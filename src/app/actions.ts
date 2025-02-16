@@ -563,7 +563,14 @@ export async function sendOtpAction(email: string) {
       from: "noreply@archiore.com", 
       to: email,
       subject: "Your OTP for Archiore",
-      html: `<p>Your OTP is: <strong>${otp}</strong></p>`,
+      html: `<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <h2 style="color: #222;">Email Verification Request</h2>
+  <p>Dear User,</p>
+  <p>You requested to verify your email address. Please use the OTP below to complete the verification process:</p>
+  <p style="font-size: 18px; font-weight: bold; color: #d32f2f;">${otp}</p>
+  <p>If you did not request this, please ignore this email.</p>
+  <p>Best regards,<br>Archiore Team</p>
+</div>`,
     });
 
     return { ok: true, message: "OTP sent successfully." };
@@ -585,8 +592,15 @@ export async function signupSendOtpAction(email: string) {
     await resend.emails.send({
       from: "noreply@archiore.com", 
       to: email,
-      subject: "Your OTP for Archiore",
-      html: `<p>Your OTP is: <strong>${otp}</strong></p>`,
+      subject: "Welcome to Archiore!",
+      html: `<div style="font-family: Arial, sans-serif; color: #333; line-height: 1.6;">
+  <h2 style="color: #222;">Welcome to Archiore!</h2>
+  <p>We're thrilled to have you on board. To get started, please verify your email using the OTP below:</p>
+  <p style="font-size: 18px; font-weight: bold; color: #d32f2f;">${otp}</p>
+  <p>If you didn’t sign up for Archiore, please ignore this email.</p>
+  <p>Best regards,<br>The Archiore Team</p>
+</div>
+`,
     });
 
     return { ok: true, message: "OTP sent successfully." };
