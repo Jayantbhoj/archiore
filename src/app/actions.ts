@@ -3,7 +3,7 @@
 import bcrypt from 'bcrypt';
 import prisma from '../../db'; // Adjust path to your Prisma singleton
 import { z } from 'zod';
-import { createSession, updateSession, decrypt, verifySession, deleteSession } from '@/app/lib/session'; // Assuming createSession, updateSession, and decrypt are in this path
+import { createSession, updateSession, decrypt, verifySession, deleteSession } from '@/lib/session'; // Assuming createSession, updateSession, and decrypt are in this path
 import { cookies } from 'next/headers'; // Ensure cookies is imported
 import { redirect } from 'next/navigation';
 
@@ -500,3 +500,80 @@ export const exploreRelatedPostsAction = async (tag: string) => {
     return [];
   }
 };
+
+
+export async function generateOtpAction(email: string) {
+  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+  const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
+  try {
+    // Try creating a new OTP record
+    await prisma.oTP.create({
+      data: { email, code: otp, expiresAt },
+    });
+  } catch (error: any) {
+    if (error.code === "P2002") {
+      // Unique constraint violation: email already exists → update OTP
+      await prisma.oTP.update({
+        where: { email },
+        data: { code: otp, expiresAt },
+      });
+    } else {
+      console.error("Error generating OTP:", error);
+      return { ok: false, message: "Error generating OTP. Please try again." };
+    }
+  }
+
+  return { ok: true, message: "OTP sent successfully!", otp }; // Remove `otp` in production
+}
+
+
+
+export async function verifyOtpAction(email: string, otp: string) {
+  const storedOtp = await prisma.oTP.findUnique({ where: { email } });
+
+  if (!storedOtp || storedOtp.code !== otp) return { ok: false, message: "Invalid OTP" };
+  if (new Date() > storedOtp.expiresAt) return { ok: false, message: "OTP expired" };
+
+  await prisma.oTP.delete({ where: { email } }); // Delete OTP after use
+
+  return { ok: true, message: "OTP verified!" };
+}
+
+
+import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function sendOtpAction(email: string) {
+
+  const result = await generateOtpAction(email);
+  
+  if (!result.ok) return { ok: false, message: result.message }; // Handle error
+
+  const otp = result.otp; // Extract OTP
+
+  // Send email using Resend
+  try {
+    await resend.emails.send({
+      from: "noreply@archiore.com", 
+      to: email,
+      subject: "Your OTP for Archiore",
+      html: `<p>Your OTP is: <strong>${otp}</strong></p>`,
+    });
+
+    return { ok: true, message: "OTP sent successfully." };
+  } catch (err) {
+    console.error("Resend Error:", err);
+    return { ok: false, message: "Failed to send OTP. Try again later." };
+  }
+}
+
+export async function changePasswordAction(email: string, newPassword: string) {
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+  await prisma.user.update({
+    where: { email },
+    data: { password: hashedPassword },
+  });
+  await deleteSession()
+  return { ok: true, message: "Password updated successfully!" };
+}

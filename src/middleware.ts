@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';  // Import the type for request
-import { verifySession } from './app/lib/session';
+import { verifySession } from './lib/session';
 
 export async function middleware(request: NextRequest) {
   // Check for the session payload

@@ -85,3 +85,14 @@ model Sheet {
   project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
   createdAt  DateTime  @default(now())
 }
+
+model OTP {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("OTP") // Ensure table name in DB is also OTP
+}
+

@@ -5,6 +5,7 @@ import { getSignedURLpfp } from '@/app/profile/[username]/actions';
 import Link from 'next/link';
 import { userDetailsAction } from '@/app/actions';
 import Loading from '@/app/loading';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface ProfileHeaderProps {
   selectedTab: 'posts' | 'saved';
@@ -24,12 +25,17 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-
-
+  const router=useRouter();
+  const pathname=usePathname()
+  const usernameFromURL = pathname.split('/').pop();
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
         const data = await userDetailsAction();
+        if (!data || data.username !== usernameFromURL) {
+          router.replace(`/profile/${data?.username}`); // Redirect if username doesn't match
+          return;
+        }
         if (data) {
           setUserDetails({
             firstName: data.name || '',

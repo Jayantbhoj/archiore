@@ -3,7 +3,7 @@
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import prisma from "../../../../db";
-import { verifySession } from "@/app/lib/session";
+import { verifySession } from "@/lib/session";
 import { userDetailsAction } from "@/app/actions";
 
 const s3Client = new S3Client({
