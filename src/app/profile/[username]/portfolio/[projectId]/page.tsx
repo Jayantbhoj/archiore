@@ -9,10 +9,6 @@ import ProjectPage from './ProjectPage';
 
 
 
-type Props = {
-  params: { username?: string; projectId?: string };
-};
-
 
 export default async function UserPage() {
 

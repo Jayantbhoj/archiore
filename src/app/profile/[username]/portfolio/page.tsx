@@ -49,7 +49,7 @@ export default function Page() {
 
   return (
     <>
-      {signedIn ? <Navbar /> : <LandingNavbar />}
+      {signedIn ? <Navbar shadow="shadow-sm" /> : <LandingNavbar />}
       <PortfolioHeader userId={id} name={name} />
       <PortfolioBody userId={id} projects={portfolioData.projects} />
     </>
