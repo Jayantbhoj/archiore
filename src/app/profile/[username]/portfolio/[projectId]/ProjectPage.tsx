@@ -107,15 +107,19 @@ const ProjectPage = () => {
       {isLoading && <LoadingSpinner />} {/* Show loading spinner if data is loading */}
 
       <div className="flex justify-between items-center py-2 px-6 mt-3">
-        <div className="text-4xl font-semibold text-myBlack">{project?.name}</div>
-        <div className="flex items-center space-x-2">
-          <button
-            className="bg-black text-white py-2 px-4 rounded-md hover:bg-myRed transition"
-            onClick={() => setIsModalOpen(true)}
-          >
-            Add Sheet
-          </button>
-        </div>
+      <div className="text-3xl sm:text-4xl font-semibold text-myBlack break-words max-w-full">
+  {project?.name}
+</div>
+
+<div className="flex flex-col sm:flex-row sm:items-center sm:space-x-2">
+  <button
+    className="bg-black text-white py-2 px-4 rounded-md hover:bg-myRed transition w-full sm:w-auto"
+    onClick={() => setIsModalOpen(true)}
+  >
+    Add Sheet
+  </button>
+</div>
+
       </div>
 
       <div className="px-6 py-2 flex flex-col gap-3">

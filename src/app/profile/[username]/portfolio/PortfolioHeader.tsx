@@ -56,25 +56,27 @@ const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({ userId, name }) => {
 
 
   return (
-    <header className="relative flex flex-col md:flex-row md:justify-between p-4 md:p-8">
-      <div className="flex justify-start p-8">
-        <TypewriterEffect
-          words={[
-            { text: `${name}'s` },
-            { text: "Portfolio" },
-          ]}
-          className="text-3xl md:text-4xl font-semibold text-white"
-          cursorClassName="bg-white"
-        />
-      </div>
+<header className="relative flex flex-col md:flex-row md:justify-between p-4 md:p-8 items-center">
+  <div className="p-4">
+    <TypewriterEffect
+      words={[
+        { text: `${name}'s` },
+        { text: "Portfolio" },
+      ]}
+      className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white text-center"
+      cursorClassName="bg-white"
+    />
+  </div>
 
-      {/* Add Project Button */}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="absolute top-8 right-8 px-6 py-2 bg-myBlack text-white rounded-md"
-      >
-        Add Project
-      </button>
+  {/* Add Project Button */}
+  <button
+    onClick={() => setIsModalOpen(true)}
+    className="mt-4 md:mt-0 px-6 py-2 bg-myBlack text-white rounded-md"
+  >
+    Add Project
+  </button>
+
+
 
       {/* Add Project Modal */}
       {isModalOpen && (
