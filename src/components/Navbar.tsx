@@ -58,19 +58,19 @@ const Navbar = ({ shadow }: { shadow?: string }) => {
     }, []);
 
     useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                const details = await userDetailsAction();
-                if (details) {
-                    setUserDetails(details);
-                }
-            } catch (error) {
-                console.error("Error fetching user details:", error);
+    const fetchUserDetails = async () => {
+        try {
+            const details = await userDetailsAction();
+            if (details) {
+                setUserDetails(details);
             }
-        };
-    
-        fetchUserDetails();
-    }, []);
+        } catch (error) {
+            console.error("Error fetching user details:", error);
+        }
+    };
+
+    fetchUserDetails();
+}, []);
     function getMenuClasses() {
         return isOpen ? "flex absolute top-[60px] bg-myWhite w-full p-10 left-0 gap-5 flex-col" : "hidden md:flex gap-x-5";
     }
