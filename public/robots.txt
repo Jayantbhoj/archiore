@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://archiore.com
+
+# Sitemaps
+Sitemap: https://archiore.com/sitemap.xml
