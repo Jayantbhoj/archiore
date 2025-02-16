@@ -149,6 +149,13 @@ export default function SignInComponent() {
               )}
             </div>
 
+            {/* Forgot Password Link */}
+            <div className="text-right">
+              <a href="/forgot-password" className="text-sm text-myRed hover:underline">
+                Forgot Password?
+              </a>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-myRed text-white font-medium rounded-lg text-sm px-5 py-2.5 mt-4 transition-colors hover:bg-myRed-dark focus:outline-none focus:ring-4 focus:ring-myRed-light"
