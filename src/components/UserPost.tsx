@@ -158,8 +158,8 @@ const UserPost: React.FC<{ post: Post }> = ({ post }) => {
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[80]">
           <div className="bg-white p-6 rounded-md shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Delete Sheet</h2>
-            <p className="text-sm mb-4">Are you sure you want to delete this sheet?</p>
+            <h2 className="text-xl font-bold mb-4">Delete Post</h2>
+            <p className="text-sm mb-4">Are you sure you want to delete this Post?</p>
             <div className="flex justify-end space-x-2">
               <button
                 className="bg-gray-300 px-4 py-2 rounded-md"
