@@ -136,6 +136,7 @@ export const isSignedInAction = cache(async () => {
 
 
 
+
 export async function logoutAction() {
   await deleteSession()
 
@@ -612,11 +613,22 @@ export async function signupSendOtpAction(email: string) {
 
 export async function changePasswordAction(email: string, newPassword: string) {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true },
+  });
 
+  if (!user) {
+    return { ok: false, message: "User not found!" };
+  }
   await prisma.user.update({
     where: { email },
     data: { password: hashedPassword },
   });
+  await prisma.session.deleteMany({
+    where: { userId: user.id },
+  });
 await deleteSession()
+
   return { ok: true, message: "Password updated successfully!" };
 }
