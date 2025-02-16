@@ -12,7 +12,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // If no valid session (user is signed out) and accessing protected routes, redirect to signin page
-  const protectedRoutes = ['/home/*', '/upload', '/profile'];
+  const protectedRoutes = ['/home','/home/search', '/upload', '/profile'];
   if (!payload && protectedRoutes.includes(new URL(request.url).pathname)) {
     return NextResponse.redirect(new URL('/signin', request.url));
   }

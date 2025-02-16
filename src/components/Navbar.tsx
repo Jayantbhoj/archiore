@@ -58,28 +58,19 @@ const Navbar = ({ shadow }: { shadow?: string }) => {
     }, []);
 
     useEffect(() => {
-
-        const cachedUser = localStorage.getItem("userDetails");
-        if (cachedUser) {
-            setUserDetails(JSON.parse(cachedUser));
-        } else {
-            // Fetch from server if not in cache
-            const fetchUserDetails = async () => {
-                try {
-                    const details = await userDetailsAction();
-                    if (details) {
-                        setUserDetails(details);
-                        localStorage.setItem("userDetails", JSON.stringify(details)); // Cache in localStorage
-                    }
-                } catch (error) {
-                    console.error("Error fetching user details:", error);
+        const fetchUserDetails = async () => {
+            try {
+                const details = await userDetailsAction();
+                if (details) {
+                    setUserDetails(details);
                 }
-            };
-
-            fetchUserDetails();
-        }
+            } catch (error) {
+                console.error("Error fetching user details:", error);
+            }
+        };
+    
+        fetchUserDetails();
     }, []);
-
     function getMenuClasses() {
         return isOpen ? "flex absolute top-[60px] bg-myWhite w-full p-10 left-0 gap-5 flex-col" : "hidden md:flex gap-x-5";
     }
@@ -185,6 +176,9 @@ const Navbar = ({ shadow }: { shadow?: string }) => {
             </Link>
             <Link href={`/profile/${userDetails!.username}/portfolio`} className="block py-2 px-4 text-myBlack hover:bg-gray-200 rounded-md transition duration-200 ease-in-out">
                 Portfolio
+            </Link>
+            <Link href={'/change-password'} className="block py-2 px-4 text-myBlack hover:bg-gray-200 rounded-md transition duration-200 ease-in-out">
+                Change Password
             </Link>
             <button onClick={handleLogout} className="w-full py-2 px-4 text-left text-myBlack hover:bg-gray-200 rounded-md transition duration-200 ease-in-out">
                 Logout

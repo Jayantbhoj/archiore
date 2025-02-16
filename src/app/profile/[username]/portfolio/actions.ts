@@ -1,6 +1,6 @@
 "use server";
 
-import { verifySession } from "@/app/lib/session";
+import { verifySession } from "@/lib/session";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import prisma from "../../../../../db"

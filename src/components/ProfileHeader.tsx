@@ -67,7 +67,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
   if (isLoading) return <Loading />;
 
   return (
-    <div className='z-100'>
+    <div className='z-95'>
       <div className='profile-container bg-myWhite px-3 p-3'>
         <div className='profile-header w-full p-2 mb-3'>
           <div className='flex items-center justify-around sm:flex-row flex-col'>

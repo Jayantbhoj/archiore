@@ -574,6 +574,6 @@ export async function changePasswordAction(email: string, newPassword: string) {
     where: { email },
     data: { password: hashedPassword },
   });
-  await deleteSession()
+await deleteSession()
   return { ok: true, message: "Password updated successfully!" };
 }

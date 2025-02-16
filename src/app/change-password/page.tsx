@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import OtpInput from "react-otp-input";
 import { sendOtpAction, verifyOtpAction, changePasswordAction } from "../actions";
 
-export default function ForgotPassword() {
+export default function ChangePassword() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -27,7 +27,7 @@ export default function ForgotPassword() {
     startTransition(async () => {
       const result = await sendOtpAction(email);
       if (result.ok) {
-        setSuccessMessage("OTP sent to your email.");
+        setSuccessMessage("OTP sent to your email. (Check spam if not received)");
         setStep("otp");
       } else {
         setError(result.message || "Failed to send OTP. Try again.");
@@ -109,7 +109,7 @@ export default function ForgotPassword() {
       <div className="w-full lg:w-1/2 bg-white flex items-center justify-center">
         <div className="w-full max-w-md p-8 space-y-6">
           <h2 className="text-2xl font-bold text-myBlack text-center">
-            {step === "email" ? "Forgot Password" : step === "otp" ? "Enter OTP" : "Set New Password"}
+            {step === "email" ? "Change Password" : step === "otp" ? "Enter OTP" : "Set New Password"}
           </h2>
 
           {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
