@@ -540,17 +540,40 @@ export async function verifyOtpAction(email: string, otp: string) {
 }
 
 
+
 import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendOtpAction(email: string) {
+  const result = await generateOtpAction(email);
   const user = await prisma.user.findUnique({
     where: { email },
   });
-
+  
   if (!user) {
     return { ok: false, message: "Email not found." };
   }
+  if (!result.ok) return { ok: false, message: result.message }; // Handle error
+
+  const otp = result.otp; // Extract OTP
+
+  // Send email using Resend
+  try {
+    await resend.emails.send({
+      from: "noreply@archiore.com", 
+      to: email,
+      subject: "Your OTP for Archiore",
+      html: `<p>Your OTP is: <strong>${otp}</strong></p>`,
+    });
+
+    return { ok: true, message: "OTP sent successfully." };
+  } catch (err) {
+    console.error("Resend Error:", err);
+    return { ok: false, message: "Failed to send OTP. Try again later." };
+  }
+}
+
+export async function signupSendOtpAction(email: string) {
   const result = await generateOtpAction(email);
   
   if (!result.ok) return { ok: false, message: result.message }; // Handle error

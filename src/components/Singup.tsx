@@ -2,7 +2,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import OtpInput from "react-otp-input";
-import { sendOtpAction, verifyOtpAction, signupAction } from "@/app/actions";
+import { verifyOtpAction, signupAction, signupSendOtpAction } from "@/app/actions";
 
 interface FormData {
   firstName: string;
@@ -53,7 +53,7 @@ export default function SignupComponent() {
 
     startTransition(async () => {
       try {
-        const result = await sendOtpAction(email);
+        const result = await signupSendOtpAction(email);
         if (result.ok) {
           setSuccessMessage("OTP sent to your email. (Check spam if not received)");
           setStep("otp");
