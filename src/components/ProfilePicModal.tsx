@@ -1,5 +1,6 @@
 'use client';
 
+import { deleteProfile } from '@/app/profile/[username]/actions';
 import { useState } from 'react';
 
 interface ProfilePicModalProps {
@@ -21,7 +22,9 @@ const ProfilePicModal: React.FC<ProfilePicModalProps> = ({ isOpen, onClose, onCh
     try {
       // Call the onRemove function passed down from the parent (this should invoke the server-side action to delete the profile pic)
       await onRemove();
+      await deleteProfile()
       onClose(); // Close the modal after removal
+      window.location.reload();
     } catch (error) {
       console.error("Error removing profile picture:", error);
     }

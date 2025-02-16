@@ -598,7 +598,7 @@ export async function signupSendOtpAction(email: string) {
   <p>We're thrilled to have you on board. To get started, please verify your email using the OTP below:</p>
   <p style="font-size: 18px; font-weight: bold; color: #d32f2f;">${otp}</p>
   <p>If you didn’t sign up for Archiore, please ignore this email.</p>
-  <p>Best regards,<br>The Archiore Team</p>
+  <p>Best regards,<br>Archiore Team</p>
 </div>
 `,
     });

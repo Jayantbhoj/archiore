@@ -3,6 +3,7 @@
 import { userDetailsAction } from "@/app/actions";
 import { getSignedURL } from "@/app/upload/actions";
 import { useState, ChangeEvent, FormEvent } from "react";
+import Toast from "./Toast";
 
 export default function Upload() {
   const [image, setImage] = useState<File | null>(null);
@@ -80,8 +81,6 @@ export default function Upload() {
 
         const user = await userDetailsAction();
         const username = user!.username;
-
-        alert("Image uploaded successfully!");
         window.location.href = `/profile/${username}`;
 
         console.log("Uploaded file name:", fileName);

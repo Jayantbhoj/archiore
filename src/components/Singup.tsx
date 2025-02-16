@@ -197,6 +197,9 @@ export default function SignupComponent() {
               >
                 {isPending ? "Sending OTP..." : "Send OTP"}
               </button>
+              <p className="text-center text-sm text-gray-600">
+            Already have an account? <a href="/signin" className="text-myRed hover:underline">Sign In</a>
+          </p>
             </form>
           )}
 
@@ -282,6 +285,7 @@ export default function SignupComponent() {
                 {isPending ? "Signing Up..." : "Sign Up"}
               </button>
             </form>
+            
           )}
         </div>
       </div>

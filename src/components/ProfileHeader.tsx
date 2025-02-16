@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { userDetailsAction } from '@/app/actions';
 import Loading from '@/app/loading';
 import { usePathname, useRouter } from 'next/navigation';
+import Toast from './Toast';
 
 interface ProfileHeaderProps {
   selectedTab: 'posts' | 'saved';
@@ -13,7 +14,6 @@ interface ProfileHeaderProps {
 }
 
 const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedTab }) => {
-
   const [userDetails, setUserDetails] = useState({
     firstName: '',
     lastName: '',
@@ -25,9 +25,12 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
-  const router=useRouter();
-  const pathname=usePathname()
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const router = useRouter();
+  const pathname = usePathname();
   const usernameFromURL = pathname.split('/').pop();
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
@@ -55,13 +58,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
     fetchUserDetails();
   }, []);
 
-
   const computeSHA256 = async (file: File) => {
     const buffer = await file.arrayBuffer();
     const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
   };
 
   if (isLoading) return <Loading />;
@@ -72,23 +73,27 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
         <div className='profile-header w-full p-2 mb-3'>
           <div className='flex items-center justify-around sm:flex-row flex-col'>
             <div className='flex items-center gap-1 sm:gap-6 sm:flex-row flex-col sm:items-center'>
-              <img
-                src={userDetails.image}
-                alt='User Avatar'
-                className='w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover cursor-pointer'
-                onClick={() => setIsImageModalOpen(true)}
-              />
+              <div className='relative w-20 h-20 sm:w-24 sm:h-24'>
+                <img
+                  src={userDetails.image}
+                  alt='User Avatar'
+                  className='w-full h-full rounded-full object-cover cursor-pointer transition-shadow duration-300 hover:shadow-lg'
+                  onClick={() => setIsImageModalOpen(true)}
+                />
+                <div
+                  className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300 cursor-pointer'
+                  onClick={() => setIsImageModalOpen(true)}
+                >
+                  <img src='/camera-icon.png' alt='Change Profile' className='w-6 h-6 opacity-80' />
+                </div>
+              </div>
               <div className='text-center sm:text-left mt-3 sm:mt-0'>
                 <h1 className='text-2xl text-myBlack font-bold'>
                   {userDetails.firstName} {userDetails.lastName}
                 </h1>
                 <p className='text-sm font-semibold text-gray-500'>@{userDetails.username}</p>
                 <p className='text-sm font-semibold text-gray-700 mb-1'>{userDetails.bio}</p>
-
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className='text-myRed text-sm hover:underline'
-                >
+                <button onClick={() => setIsModalOpen(true)} className='text-myRed text-sm hover:underline'>
                   Edit Profile
                 </button>
               </div>
@@ -97,11 +102,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
             <div className='flex flex-col sm:flex-row items-center sm:items-start gap-1'>
               <h3 className='text-myBlack font-bold mt-3 text-2xl mr-2'>Portfolio</h3>
               <Link href={`/profile/${userDetails.username}/portfolio`}>
-                <img
-                  src='/portfolio.png'
-                  alt='portfolio'
-                  className='w-32 h-32 cursor-pointer'
-                />
+                <img src='/portfolio.png' alt='portfolio' className='w-32 h-32 cursor-pointer' />
               </Link>
             </div>
           </div>
@@ -117,7 +118,6 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
         >
           My Posts
         </button>
-
         <button
           className={`px-5 py-2 rounded-full text-lg font-semibold mx-2 transition ${
             selectedTab === 'saved' ? 'bg-myBlack text-white' : 'bg-gray-200 text-myBlack hover:bg-gray-300'
@@ -148,21 +148,42 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({ selectedTab, setSelectedT
               });
 
               if (!uploadResponse.ok) throw new Error('Image upload failed.');
-
-              alert('Profile picture changed!');
+              setToastMessage('Profile picture updated successfully!');
               console.log('Uploaded file name:', fileName);
+
+                try {
+                  const data = await userDetailsAction();
+                  if (!data || data.username !== usernameFromURL) {
+                    router.replace(`/profile/${data?.username}`); // Redirect if username doesn't match
+                    return;
+                  }
+                  if (data) {
+                    setUserDetails({
+                      firstName: data.name || '',
+                      lastName: data.surname || '',
+                      username: data.username || '',
+                      image: data.image || '/noAvatar.png',
+                      bio: data.bio || '',
+                    });
+                  }
+                } catch (error) {
+                  console.error('Error fetching user details:', error);
+                } 
+
             } else if ('failure' in response) {
               throw new Error(response.failure);
             }
           } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while uploading.');
+            setToastMessage('Error uploading profile picture.');
           }
         }}
         onRemove={() => setUserDetails((prev) => ({ ...prev, image: '/noAvatar.png' }))}
       />
 
       {isModalOpen && <EditProfileModal userDetails={userDetails} onSave={() => setIsModalOpen(false)} onCancel={() => setIsModalOpen(false)} />}
+
+      {toastMessage && <Toast message={toastMessage} onClose={() => setToastMessage(null)} />}
     </div>
   );
 };

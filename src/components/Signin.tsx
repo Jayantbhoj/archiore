@@ -164,6 +164,9 @@ export default function SignInComponent() {
               {isPending ? "Logging In..." : "Log In"}
             </button>
           </form>
+          <p className="text-center text-sm text-gray-600">
+            Don't have an account? <a href="/signup" className="text-myRed hover:underline">Sign up</a>
+          </p>
         </div>
       </div>
     </div>

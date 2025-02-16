@@ -91,7 +91,7 @@ export const getSignedURLpfp = async ({
 };
 
 // New delete profile picture action
-export const deleteProfile = async ({ username }: { username: string }) => {
+export const deleteProfile = async () => {
   try {
     // Verify session and get userId
     const session = await verifySession();
@@ -102,7 +102,7 @@ export const deleteProfile = async ({ username }: { username: string }) => {
 
     // Find user by username
     const user = await prisma.user.findUnique({
-      where: { username },
+      where: { id:userId },
       select: { image: true },
     });
 

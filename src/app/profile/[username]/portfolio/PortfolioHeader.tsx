@@ -56,7 +56,7 @@ const PortfolioHeader: React.FC<PortfolioHeaderProps> = ({ userId, name }) => {
 
 
   return (
-    <header className="relative">
+    <header className="relative flex flex-col md:flex-row md:justify-between p-4 md:p-8">
       <div className="flex justify-start p-8">
         <TypewriterEffect
           words={[

@@ -120,7 +120,6 @@ const UserPost: React.FC<{ post: Post }> = ({ post }) => {
                 {/* User Info */}
                 <div className="mt-4 text-gray-600 text-sm">
                   <p>Posted by: <span className="font-semibold">{post.user.username}</span></p>
-                  <p>Created At: {new Date(post.createdAt).toLocaleDateString()}</p>
                 </div>
 
               </div>
