@@ -61,7 +61,7 @@ const LandingNavbar = () => {
                         
                         {/* Small Screen Logo */}
                         <img 
-                            src='logosmall.png' 
+                            src='/logosmall.png' 
                             alt='Logo' 
                             className='sm:hidden block w-[40px] h-[40px]'  // This logo is hidden on large screens
                         />
