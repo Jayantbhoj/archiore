@@ -19,7 +19,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Archiore",
-  description: "Architecture Sheets",
+  description: "The Architectural Ore",
   icons:{
     icon: ['/favicon.ico?v=4'],
     apple:['/apple-touch-icon.png?v=4'],
