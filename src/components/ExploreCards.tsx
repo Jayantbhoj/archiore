@@ -22,11 +22,11 @@ const exploreCategories = [
     src: '/section.jpg',
   },
   {
-    title: 'Elevations',
+    title: 'Elevation',
     src: '/elevations.jpg',
   },
   {
-    title: 'Floor Plans',
+    title: 'Floor Plan',
     src: '/floor-plans.jpg',
   },
 ];
