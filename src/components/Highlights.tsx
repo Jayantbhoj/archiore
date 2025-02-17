@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { BackgroundLines } from './ui/BackgroundLines';
+import Link from 'next/link';
 
 const HighlightsSection = () => {
   const router = useRouter();
@@ -212,7 +213,7 @@ const HighlightsSection = () => {
           </p>
           <a 
             href="/signup" 
-            className="bg-myRed text-white px-6 py-3 rounded-md inline-block hover:bg-[#417ba1] transition-colors duration-200"
+            className="bg-myRed text-white px-6 py-3 rounded-md inline-block hover:bg-white hover:text-black transition-colors duration-200"
           >
             Get Started
           </a>
@@ -236,7 +237,7 @@ const HighlightsSection = () => {
           
             <button
               type="submit"
-              className="bg-myRed text-white py-2 px-12 rounded-md transition-colors duration-200"
+              className="bg-myRed text-white py-2 px-12 rounded-md hover:bg-black  transition-colors duration-200"
               onClick={() => router.push("/signup")}
             >
               Sign Up
@@ -248,6 +249,7 @@ const HighlightsSection = () => {
 
         </div>
       </div>
+
     </section>
     <footer className="bg-black py-4">
   <div className="container mx-auto flex justify-center items-center text-white">
@@ -267,6 +269,7 @@ const HighlightsSection = () => {
       <a href="/contact" className="text-sm hover:text-gray-400 mx-2">Contact</a>
     </div>
   </div>
+
 </footer>
 
     </>
@@ -274,3 +277,4 @@ const HighlightsSection = () => {
 };
 
 export default HighlightsSection;
+
