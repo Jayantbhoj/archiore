@@ -23,11 +23,11 @@ const exploreCategories = [
   },
   {
     title: 'Elevation',
-    src: '/elevations.jpg',
+    src: '/elevation.jpg',
   },
   {
     title: 'Floor Plan',
-    src: '/floor-plans.jpg',
+    src: '/floor-plan.jpg',
   },
 ];
 
