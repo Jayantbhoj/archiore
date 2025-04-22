@@ -2,10 +2,10 @@ import 'server-only'
 import { cookies } from 'next/headers'
 import { SignJWT, jwtVerify, JWTPayload } from 'jose';
 
-// Define the SessionPayload type
+
 export interface SessionPayload extends JWTPayload {
   userId: string;
-  expires: number;  // Expires should be a number representing the expiration time in seconds
+  expires: number;  
 }
 
 const secretKey = process.env.SESSION_SECRET;
@@ -15,8 +15,8 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuedAt()
-    .setExpirationTime(payload.expires)  // Set expiration using the timestamp in seconds
-    .sign(encodedKey);  // Sign with the secret key
+    .setExpirationTime(payload.expires)  
+    .sign(encodedKey);  
 }
 
 export async function decrypt(session: string | undefined = '') {
@@ -24,10 +24,10 @@ export async function decrypt(session: string | undefined = '') {
     const { payload } = await jwtVerify(session, encodedKey, {
       algorithms: ['HS256'],
     });
-    return payload as SessionPayload;  // Cast payload to SessionPayload type
+    return payload as SessionPayload;  
   } catch (error) {
     console.log('Failed to verify session');
-    return null;  // Return null if verification fails
+    return null;  
   }
 }
 
@@ -53,12 +53,12 @@ export async function updateSession() {
   const payload = await decrypt(session);
 
   if (!session || !payload) {
-    return null;  // If no session exists, return null
+    return null;  
   }
 
   // Set new expiration time for the session (7 days from now)
-  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);  // 7 days from now
-  const expiresInSeconds = Math.floor(expiresAt.getTime() / 1000);  // Convert to seconds
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);  
+  const expiresInSeconds = Math.floor(expiresAt.getTime() / 1000);  
 
   // Create new session with updated expiration time
   const newSession = await encrypt({
@@ -79,7 +79,7 @@ export async function updateSession() {
 
 export async function verifySession() {
     try {
-      // Retrieve the session cookie
+
       const cookieStore = await cookies();
       const session = cookieStore.get('session')?.value;
   
